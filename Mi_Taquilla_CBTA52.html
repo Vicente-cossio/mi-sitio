@@ -1,0 +1,1420 @@
+<!DOCTYPE html>
+<html lang="es"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Transporte Escolar CBTA 52 Matehuala</title>
+    <script defer="" src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+    <script defer="" src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script defer="" src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+    <style>
+        :root {
+            --primary: #14532d;
+            --primary-light: #166534;
+            --accent: #eab308;
+            --accent-hover: #ca8a04;
+            --blue: #0284c7;
+            --purple: #7e22ce;
+            --danger: #dc2626;
+            --bg: #f1f5f9;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --border: #e2e8f0;
+            --radius: 14px;
+            --shadow: 0 4px 15px -2px rgba(15, 23, 42, 0.08);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: var(--bg); color: var(--text-main); line-height: 1.45; padding-bottom: 85px; }
+        .app-header { background: linear-gradient(135deg, var(--primary) 0%, #15803d 100%); color: #fff; padding: 18px 16px; border-bottom: 4px solid var(--accent); box-shadow: 0 4px 12px rgba(0,0,0,0.12); }
+        .header-content { max-width: 1280px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
+        .header-top { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+        .brand-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.15); padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; letter-spacing: 0.4px; }
+        .app-header h1 { font-size: 21px; font-weight: 800; letter-spacing: -0.3px; }
+        .app-header .subtitle { font-size: 14px; opacity: 0.92; }
+
+        /* ===================== LOGIN STYLES ===================== */
+        .login-overlay {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(135deg, #14532d 0%, #15803d 50%, #14532d 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            z-index: 10000;
+            overflow-y: auto;
+        }
+        .login-box {
+            background: #ffffff;
+            border-radius: 18px;
+            width: 100%;
+            max-width: 420px;
+            padding: 28px 24px 22px;
+            border-top: 6px solid var(--accent);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.35);
+            animation: loginFadeIn 0.4s ease-out;
+        }
+        @keyframes loginFadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .login-header { text-align: center; margin-bottom: 20px; }
+        .login-icon { font-size: 48px; margin-bottom: 6px; line-height: 1; }
+        .login-header h2 { font-size: 24px; font-weight: 900; color: var(--primary); letter-spacing: -0.5px; margin-bottom: 2px; }
+        .login-header p { font-size: 13px; color: var(--text-muted); font-weight: 600; }
+        .login-error {
+            color: var(--danger);
+            font-size: 13px;
+            text-align: center;
+            font-weight: 700;
+            min-height: 20px;
+            margin-top: 4px;
+        }
+        .login-footer {
+            margin-top: 16px;
+            padding-top: 14px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            font-size: 11.5px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+        .login-footer strong { color: var(--primary); }
+        .user-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(234, 179, 8, 0.95);
+            color: #0f172a;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 0.3px;
+            transition: background 0.3s;
+        }
+        .logout-btn {
+            background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+            color: #fff;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            transition: filter 0.2s, transform 0.1s;
+            width: auto;
+            min-height: 30px;
+        }
+        .logout-btn:hover { filter: brightness(1.1); }
+        .logout-btn:active { transform: scale(0.96); }
+
+        /* ===================== SECCIÓN DE IMAGEN (CAMION ESCOLAR MODERNO) ===================== */
+        .bus-illustration-banner {
+            max-width: 1280px;
+            margin: 14px auto 0;
+            padding: 0 14px;
+            display: flex;
+            justify-content: center;
+        }
+        .bus-illustration-card {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            background: #fff;
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            padding: 12px 24px 12px 12px;
+            width: 100%;
+            transition: box-shadow 0.2s;
+        }
+        .bus-illustration-card:hover {
+            box-shadow: 0 8px 24px -6px rgba(20, 83, 45, 0.2);
+        }
+        .bus-image-wrapper {
+            width: 340px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: 12px;
+            padding: 10px;
+        }
+        .bus-svg {
+            width: 100%;
+            height: auto;
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.2));
+            transition: transform 0.3s ease;
+        }
+        .bus-svg:hover {
+            transform: scale(1.03);
+        }
+        .bus-illustration-legend {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 4px;
+        }
+        .bus-illustration-legend .legend-tag {
+            font-size: 13px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent-hover);
+        }
+        .bus-illustration-legend .legend-title {
+            font-size: 38px;
+            font-weight: 900;
+            color: var(--primary);
+            line-height: 1.1;
+            letter-spacing: -1px;
+            text-shadow: 2px 2px 0 rgba(234, 179, 8, 0.25);
+        }
+        .bus-illustration-legend .legend-sub {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+        @media (max-width: 700px) {
+            .bus-illustration-card {
+                flex-direction: column;
+                padding: 12px;
+            }
+            .bus-image-wrapper {
+                width: 100%;
+                max-width: 350px;
+            }
+            .bus-illustration-legend .legend-title {
+                font-size: 28px;
+            }
+            .bus-illustration-legend {
+                align-items: center;
+                text-align: center;
+            }
+        }
+
+        /* ===================== RESTO DEL SISTEMA ===================== */
+        .quick-guide { background: #fff; max-width: 1280px; margin: 14px auto 0; padding: 12px 16px; border-radius: 12px; border-left: 5px solid var(--accent); box-shadow: var(--shadow); width: calc(100% - 28px); }
+        .quick-guide h2 { font-size: 14px; color: var(--primary); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .quick-guide ul { padding-left: 18px; font-size: 13px; color: var(--text-muted); display: grid; grid-template-columns: 1fr; gap: 4px; }
+        .main-container { max-width: 1280px; margin: 16px auto; padding: 0 14px; display: grid; grid-template-columns: 1fr; gap: 18px; }
+        @media (min-width: 768px) { .app-header h1 { font-size: 25px; } .quick-guide ul { grid-template-columns: repeat(3, 1fr); gap: 12px; } }
+        @media (min-width: 980px) { body { padding-bottom: 40px; } .main-container { grid-template-columns: 1.05fr 1.55fr; gap: 24px; } .mobile-nav { display: none !important; } }
+        .card { background: var(--card-bg); border-radius: var(--radius); padding: 18px; box-shadow: var(--shadow); border: 1px solid var(--border); margin-bottom: 16px; }
+        .card-header { margin-bottom: 14px; padding-bottom: 10px; border-bottom: 2px solid #f1f5f9; }
+        .card-header h2 { font-size: 17px; font-weight: 800; color: var(--primary); display: flex; align-items: center; gap: 8px; }
+        .card-header p { font-size: 13px; color: var(--text-muted); margin-top: 3px; }
+        .form-group { margin-bottom: 14px; }
+        .form-group label { display: block; margin-bottom: 6px; font-weight: 700; font-size: 13.5px; color: var(--text-main); }
+        .input-control { width: 100%; padding: 12px 14px; border: 1.5px solid #cbd5e1; border-radius: 10px; font-size: 16px; background: #fff; transition: all 0.2s; }
+        .input-control:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(20, 83, 45, 0.15); }
+        .input-control[readonly] { background-color: #f1f5f9; color: #475569; font-weight: 700; cursor: not-allowed; }
+        .price-lock-group { display: flex; gap: 8px; align-items: stretch; }
+        .price-lock-group .input-control { flex: 1; }
+        .scanner-zone { background: #f0fdf4; border: 2px dashed #16a34a; border-radius: 12px; padding: 14px; margin-bottom: 16px; }
+        .scanner-input { border: 2px solid var(--primary) !important; font-weight: 800; color: var(--primary); }
+        #qr-reader { width: 100%; margin-top: 12px; border-radius: 10px; overflow: hidden; display: none; background: #000; }
+        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; min-height: 48px; padding: 12px 16px; border: none; border-radius: 11px; font-size: 15px; font-weight: 700; cursor: pointer; transition: transform 0.12s ease, box-shadow 0.2s ease, filter 0.2s ease; color: #fff; box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12); margin-bottom: 10px; text-align: center; }
+        .btn:hover { filter: brightness(1.06); box-shadow: 0 5px 14px rgba(0, 0, 0, 0.16); }
+        .btn:active { transform: scale(0.98); }
+        .btn-primary { background: linear-gradient(135deg, #15803d 0%, #14532d 100%); }
+        .btn-accent { background: linear-gradient(135deg, #facc15 0%, #eab308 100%); color: #0f172a; }
+        .btn-blue { background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); }
+        .btn-purple { background: linear-gradient(135deg, #9333ea 0%, #6b21a8 100%); }
+        .btn-danger { background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%); }
+        .btn-outline-lock { width: auto; min-height: 46px; padding: 0 14px; margin-bottom: 0; background: #334155; font-size: 13px; white-space: nowrap; }
+        .btn-sm { min-height: 36px; padding: 6px 10px; font-size: 13px; width: auto; margin: 0 2px; border-radius: 8px; }
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+        .stat-card { background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border: 1px solid #bbf7d0; border-left: 5px solid var(--primary); border-radius: 12px; padding: 14px 10px; text-align: center; }
+        .stat-card h3 { font-size: 12px; color: var(--text-muted); text-transform: uppercase; font-weight: 700; margin-bottom: 4px; }
+        .stat-card p { font-size: 26px; font-weight: 900; color: var(--primary); }
+        .action-bar { display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 16px; }
+        @media (min-width: 550px) { .action-bar { grid-template-columns: 1.5fr 1fr; } }
+        .table-wrapper { overflow-x: auto; max-height: 440px; overflow-y: auto; border: 1px solid var(--border); border-radius: 10px; -webkit-overflow-scrolling: touch; }
+        table { width: 100%; border-collapse: collapse; font-size: 13.5px; min-width: 480px; }
+        table th, table td { padding: 11px 10px; text-align: left; border-bottom: 1px solid var(--border); }
+        table th { background: var(--primary); color: #fff; position: sticky; top: 0; z-index: 2; font-size: 12.5px; text-transform: uppercase; }
+        .folio-pill { background: #dcfce7; color: var(--primary); padding: 4px 8px; border-radius: 6px; font-weight: 800; font-family: monospace; font-size: 13px; }
+        .mobile-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: #ffffff; border-top: 1px solid var(--border); display: grid; grid-template-columns: repeat(3, 1fr); padding: 6px 8px; box-shadow: 0 -4px 12px rgba(0,0,0,0.06); z-index: 900; }
+        .mobile-nav a { text-decoration: none; color: var(--text-muted); font-size: 11.5px; font-weight: 700; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 6px 4px; border-radius: 8px; }
+        .mobile-nav a:active { background: #f1f5f9; color: var(--primary); }
+        .modal-overlay { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.72); backdrop-filter: blur(3px); display: none; align-items: center; justify-content: center; padding: 16px; z-index: 9999; }
+        .modal-box { background: #fff; padding: 24px 20px; border-radius: 16px; width: 100%; max-width: 380px; text-align: center; border-top: 6px solid var(--primary); box-shadow: 0 20px 35px rgba(0,0,0,0.25); }
+        .modal-box h3 { color: var(--primary); font-size: 18px; margin-bottom: 6px; }
+        .modal-box p { font-size: 13.5px; color: var(--text-muted); margin-bottom: 14px; }
+        .modal-box input { width: 100%; padding: 12px; font-size: 20px; text-align: center; letter-spacing: 4px; border: 2px solid #cbd5e1; border-radius: 10px; margin-bottom: 14px; }
+        #single-ticket-print, #batch-50-print { display: none; }
+
+        @keyframes shakeX {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-7px); }
+            40%, 80% { transform: translateX(7px); }
+        }
+        .input-shake {
+            animation: shakeX 0.5s ease-in-out;
+            border-color: #dc2626 !important;
+            box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.25) !important;
+            background-color: #fef2f2 !important;
+        }
+
+        .summary-top-card {
+            grid-column: 1 / -1;
+            margin-bottom: 0 !important;
+            background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);
+            border-left: 6px solid var(--primary);
+            box-shadow: 0 6px 20px -4px rgba(20, 83, 45, 0.18);
+        }
+        .summary-top-card .stat-card { padding: 18px 12px; }
+        .summary-top-card .stat-card p { font-size: 30px; }
+        @media (min-width: 768px) {
+            .summary-top-card .stats-grid { gap: 16px; }
+            .summary-top-card .stat-card p { font-size: 34px; }
+        }
+
+        body {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none;
+        }
+        input, textarea, select, .input-control, .modal-box input {
+            -webkit-user-select: text !important;
+            -moz-user-select: text !important;
+            -ms-user-select: text !important;
+            user-select: text !important;
+        }
+        img, svg, canvas { -webkit-user-drag: none; user-drag: none; }
+
+        @media print {
+            @page { size: letter portrait; margin: 6mm; }
+            body * { visibility: hidden; }
+            .mobile-nav, .modal-overlay, .bus-illustration-banner { display: none !important; }
+            body.print-mode-batch #batch-50-print, body.print-mode-batch #batch-50-print * { visibility: visible; }
+            body.print-mode-batch #batch-50-print { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; position: absolute; left: 0; top: 0; width: 100%; background: #fff; }
+            .large-ticket { border: 2px dashed #000; border-radius: 6px; padding: 8px 10px; background: #fff; page-break-inside: avoid; break-inside: avoid; height: 49mm; display: flex; flex-direction: column; justify-content: space-between; }
+            .large-ticket-header { text-align: center; border-bottom: 1.5px solid #000; padding-bottom: 3px; }
+            .large-ticket-header .school-title { font-size: 15px; font-weight: 900; color: #000; }
+            .large-ticket-header .route-title { font-size: 12px; font-weight: 800; color: #000; }
+            .large-ticket-body { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 4px 0; flex: 1; }
+            .large-ticket-info { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+            .large-ticket-info .folio-badge { font-size: 14px; font-weight: 900; font-family: monospace; border: 1px solid #000; padding: 2px 8px; margin-bottom: 3px; background: #f0f0f0; }
+            .large-ticket-info .price-label { font-size: 11px; font-weight: bold; margin-bottom: 2px; }
+            .large-ticket-info svg.barcode-svg { width: 100%; max-width: 155px; height: 36px; }
+            .large-ticket-qr { width: 74px; height: 74px; display: flex; align-items: center; justify-content: center; border: 1px solid #000; padding: 3px; background: #fff; }
+            .large-ticket-qr img, .large-ticket-qr canvas { width: 66px !important; height: 66px !important; }
+            body.print-mode-single #single-ticket-print, body.print-mode-single #single-ticket-print * { visibility: visible; }
+            body.print-mode-single #single-ticket-print { display: block; position: absolute; left: 0; top: 0; width: 80mm; padding: 5mm; font-family: 'Courier New', Courier, monospace; color: #000; background: #fff; border: 2px dashed #000; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================
+         INDEX / LOGIN - Se muestra antes de abrir la página
+         ============================================================ -->
+    <div class="login-overlay" id="loginOverlay">
+        <div class="login-box">
+            <div class="login-header">
+                <div class="login-icon">🚌</div>
+                <h2>CBTA No. 52</h2>
+                <p>Transporte Escolar · Matehuala</p>
+            </div>
+            <form id="loginForm" autocomplete="off">
+                <div class="form-group">
+                    <label for="loginUsername">👤 Nombre de Usuario:</label>
+                    <input type="text" id="loginUsername" class="input-control" required="" placeholder="Ej. Vicente, Raul..." autocomplete="off" autofocus="">
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">🔑 Contraseña:</label>
+                    <input type="password" id="loginPassword" class="input-control" required="" placeholder="••••••••" autocomplete="current-password">
+                </div>
+                <div class="form-group">
+                    <label for="loginUserType">🎭 Tipo de Usuario:</label>
+                    <select id="loginUserType" class="input-control">
+                        <option value="admin">👑 Administrador</option>
+                        <option value="guest">👁️ Invitado</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary" style="margin-bottom: 8px;">
+                    🔓 Iniciar Sesión
+                </button>
+                <p id="loginError" class="login-error"></p>
+            </form>
+            <div class="login-footer">
+                <p>🔒 Acceso restringido · Solo personal autorizado</p>
+                <p>Administradores: <strong>Vicente · Raul</strong></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         CONTENEDOR DE LA APLICACIÓN (oculto hasta login)
+         ============================================================ -->
+    <div id="appContainer" style="display: none;">
+
+    <header class="app-header">
+        <div class="header-content">
+            <div class="header-top">
+                <span class="brand-badge">🚌 RUTA ACTIVA: CBTA 52 / MATEHUALA   DISEÑO VICENTE H. COSSIO</span>
+                <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                    <span class="brand-badge" id="liveDateBadge">📅 Cargando fecha...</span>
+                    <span class="user-badge" id="userBadge">👤 Sin sesión</span>
+                    <button type="button" class="logout-btn" id="btnLogout">🚪 Salir</button>
+                </div>
+            </div>
+            <h2><span class="legend-tag">Oficina Recursos Financieros   CBTA No.52</span></h2>
+            <p class="subtitle">Escanea, registra y administra la recaudación diaria de boletos sin folios duplicados.</p>
+        </div>
+    </header>
+
+    <!-- SECCIÓN DE IMAGEN: CAMIÓN ESCOLAR MODERNO VECTORIAL -->
+    <div class="bus-illustration-banner">
+        <div class="bus-illustration-card">
+            <div class="bus-image-wrapper">
+                <svg class="bus-svg" viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <!-- Degradado carrocería -->
+                        <linearGradient id="busBody" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" stop-color="#FDE047"></stop>
+                            <stop offset="40%" stop-color="#FACC15"></stop>
+                            <stop offset="100%" stop-color="#EAB308"></stop>
+                        </linearGradient>
+                        <!-- Degradado ventanas -->
+                        <linearGradient id="glass" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#BAE6FD"></stop>
+                            <stop offset="40%" stop-color="#38BDF8"></stop>
+                            <stop offset="100%" stop-color="#0284C7"></stop>
+                        </linearGradient>
+                        <!-- Degradado llantas -->
+                        <radialGradient id="tire" cx="50%" cy="50%" r="50%">
+                            <stop offset="70%" stop-color="#374151"></stop>
+                            <stop offset="100%" stop-color="#111827"></stop>
+                        </radialGradient>
+                        <!-- Reflejo cristal -->
+                        <linearGradient id="reflection" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="rgba(255,255,255,0.8)"></stop>
+                            <stop offset="50%" stop-color="rgba(255,255,255,0)"></stop>
+                        </linearGradient>
+                    </defs>
+
+                    <!-- Sombra base -->
+                    <ellipse cx="400" cy="360" rx="340" ry="25" fill="rgba(0,0,0,0.25)"></ellipse>
+
+                    <!-- Chasis / Defensa inferior -->
+                    <path d="M 50 320 L 750 320 L 760 340 L 40 340 Z" fill="#374151" rx="10"></path>
+
+                    <!-- Carrocería Principal (Forma moderna con curvas) -->
+                    <path d="M 60 140 C 60 90, 100 70, 150 70 L 650 70 C 700 70, 720 90, 720 140 L 720 300 C 720 310, 710 320, 700 320 L 60 320 C 50 320, 40 310, 40 300 L 40 160 C 40 150, 50 140, 60 140 Z" fill="url(#busBody)" stroke="#B45309" stroke-width="5"></path>
+
+                    <!-- Capó delantero (Curva moderna) -->
+                    <path d="M 720 180 L 760 180 C 780 180, 790 200, 790 220 L 790 300 C 790 310, 780 320, 770 320 L 720 320 Z" fill="url(#busBody)" stroke="#B45309" stroke-width="5"></path>
+
+                    <!-- Detalle techo redondeado -->
+                    <path d="M 150 70 Q 400 50 650 70" fill="none" stroke="#D97706" stroke-width="6"></path>
+
+                    <!-- Letrero Superior -->
+                    <rect x="300" y="45" width="200" height="30" rx="6" fill="#1F2937" stroke="#111827" stroke-width="3"></rect>
+                    <text x="400" y="66" font-family="Arial, sans-serif" font-size="14" font-weight="900" fill="#FBBF24" text-anchor="middle" letter-spacing="2">TRANSPORTE ESCOLAR</text>
+
+                    <!-- Ventanas Laterales -->
+                    <g fill="url(#glass)" stroke="#0369A1" stroke-width="4">
+                        <rect x="90" y="95" width="60" height="65" rx="8"></rect>
+                        <rect x="160" y="95" width="60" height="65" rx="8"></rect>
+                        <rect x="230" y="95" width="60" height="65" rx="8"></rect>
+                        <rect x="300" y="95" width="60" height="65" rx="8"></rect>
+                        <rect x="370" y="95" width="60" height="65" rx="8"></rect>
+                        <rect x="440" y="95" width="60" height="65" rx="8"></rect>
+                        <rect x="510" y="95" width="60" height="65" rx="8"></rect>
+                        <rect x="580" y="95" width="60" height="65" rx="8"></rect>
+                    </g>
+
+                    <!-- Reflejos en ventanas (Efecto moderno) -->
+                    <g fill="url(#reflection)">
+                        <polygon points="90,95 120,95 90,140"></polygon>
+                        <polygon points="160,95 190,95 160,140"></polygon>
+                        <polygon points="230,95 260,95 230,140"></polygon>
+                        <polygon points="300,95 330,95 300,140"></polygon>
+                        <polygon points="370,95 400,95 370,140"></polygon>
+                        <polygon points="440,95 470,95 440,140"></polygon>
+                        <polygon points="510,95 540,95 510,140"></polygon>
+                        <polygon points="580,95 610,95 580,140"></polygon>
+                    </g>
+
+                    <!-- Parabrisas Delantero -->
+                    <path d="M 660 95 L 715 95 L 735 170 L 660 170 Z" fill="url(#glass)" stroke="#0369A1" stroke-width="4" rx="5"></path>
+                    <polygon points="660,95 690,95 660,150" fill="url(#reflection)"></polygon>
+
+                    <!-- Puerta Trasera -->
+                    <rect x="50" y="95" width="30" height="190" rx="6" fill="#E5E7EB" stroke="#4B5563" stroke-width="4"></rect>
+                    <line x1="65" y1="95" x2="65" y2="285" stroke="#4B5563" stroke-width="3"></line>
+
+                    <!-- Letrero CBTA 52 en el costado -->
+                    <text x="400" y="240" font-family="Arial, sans-serif" font-size="55" font-weight="900" fill="#14532D" text-anchor="middle" letter-spacing="3" opacity="0.9">CBTA 52</text>
+
+                    <!-- Parrilla Delantera -->
+                    <rect x="750" y="200" width="40" height="80" rx="6" fill="#9CA3AF" stroke="#374151" stroke-width="4"></rect>
+                    <line x1="755" y1="215" x2="785" y2="215" stroke="#374151" stroke-width="4"></line>
+                    <line x1="755" y1="235" x2="785" y2="235" stroke="#374151" stroke-width="4"></line>
+                    <line x1="755" y1="255" x2="785" y2="255" stroke="#374151" stroke-width="4"></line>
+
+                    <!-- Faros LED -->
+                    <rect x="745" y="285" width="20" height="15" rx="4" fill="#FEF08A" stroke="#B45309" stroke-width="2"></rect>
+                    <rect x="770" y="285" width="20" height="15" rx="4" fill="#FEF08A" stroke="#B45309" stroke-width="2"></rect>
+
+                    <!-- Espejos Laterales -->
+                    <rect x="700" y="130" width="15" height="40" rx="4" fill="#6B7280" stroke="#374151" stroke-width="3"></rect>
+                    <line x1="715" y1="150" x2="740" y2="150" stroke="#374151" stroke-width="4"></line>
+
+                    <!-- Llantas Traseras -->
+                    <g transform="translate(180, 310)">
+                        <circle cx="0" cy="0" r="55" fill="url(#tire)"></circle>
+                        <circle cx="0" cy="0" r="30" fill="#D1D5DB" stroke="#111827" stroke-width="4"></circle>
+                        <circle cx="0" cy="0" r="15" fill="#F3F4F6" stroke="#111827" stroke-width="3"></circle>
+                        <line x1="-20" y1="0" x2="20" y2="0" stroke="#111827" stroke-width="3"></line>
+                        <line x1="0" y1="-20" x2="0" y2="20" stroke="#111827" stroke-width="3"></line>
+                    </g>
+
+                    <!-- Llantas Delanteras -->
+                    <g transform="translate(650, 310)">
+                        <circle cx="0" cy="0" r="55" fill="url(#tire)"></circle>
+                        <circle cx="0" cy="0" r="30" fill="#D1D5DB" stroke="#111827" stroke-width="4"></circle>
+                        <circle cx="0" cy="0" r="15" fill="#F3F4F6" stroke="#111827" stroke-width="3"></circle>
+                        <line x1="-20" y1="0" x2="20" y2="0" stroke="#111827" stroke-width="3"></line>
+                        <line x1="0" y1="-20" x2="0" y2="20" stroke="#111827" stroke-width="3"></line>
+                    </g>
+
+                    <!-- Señal de Alto (Detalle clásico) -->
+                    <g transform="translate(560, 200)">
+                        <rect x="-5" y="0" width="10" height="30" fill="#6B7280"></rect>
+                        <polygon points="0,-15 15,-5 15,15 0,25 -15,15 -15,-5" fill="#DC2626" stroke="#991B1B" stroke-width="3"></polygon>
+                        <text x="0" y="5" font-family="Arial, sans-serif" font-size="12" font-weight="900" fill="#FFF" text-anchor="middle">ALTO</text>
+                    </g>
+                </svg>
+            </div>
+            <div class="bus-illustration-legend">
+                <span class="legend-tag">Transporte Escolar</span>
+                <span class="legend-title">CBTA 52</span>
+                <span class="legend-sub">Unidad Oficial · Matehuala</span>
+            </div>
+        </div>
+    </div>
+
+    <section class="quick-guide">
+        <h2>📌 Guía Rápida de Operación</h2>
+        <ul>
+            <li><strong>Cero Duplicados:</strong> Si un boleto ya fue registrado, el sistema avisará que el folio ya está registrado y bloqueará el cobro.</li>
+            <li><strong>Tarifa Protegida:</strong> Usa <strong>🔒 Modificar</strong> para actualizar el costo con contraseña.</li>
+            <li><strong>Corte Seguro:</strong> La impresión, CSV y reinicio requieren contraseña.</li>
+        </ul>
+    </section>
+
+    <main class="main-container">
+
+        <section class="card summary-top-card" id="seccion-resumen">
+            <div class="card-header" style="margin-bottom: 12px;">
+                <h2>💰 Resumen de Recaudación en Vivo</h2>
+                <p>Estadísticas actualizadas automáticamente con cada venta registrada en el corte del día.</p>
+            </div>
+            <div class="stats-grid" style="margin-bottom: 0;">
+                <div class="stat-card">
+                    <h3>🎫 Boletos Vendidos</h3>
+                    <p id="totalTickets">0</p>
+                </div>
+                <div class="stat-card">
+                    <h3>💵 Total Recaudado</h3>
+                    <p id="totalRevenue">$0.00</p>
+                </div>
+            </div>
+        </section>
+
+        <div>
+            <section class="card" id="seccion-cobro">
+                <div class="card-header">
+                    <h2>1. Cobrar Boleto (Lector QR y Barras)</h2>
+                    <p>Escanea con lector USB o activa la cámara de tu celular.</p>
+                </div>
+                <div class="scanner-zone">
+                    <div class="form-group" style="margin-bottom: 10px;">
+                        <label for="barcodeInput">🔍 Escáner Automático de Boletos:</label>
+                        <input type="text" id="barcodeInput" class="input-control scanner-input" placeholder="Toca aquí y escanea el boleto..." autofocus="" autocomplete="off">
+                    </div>
+                    <button type="button" id="btnToggleCameraQR" class="btn btn-blue" style="margin-bottom: 0;">
+                        📷 Activar Cámara para Escanear QR
+                    </button>
+                    <div id="qr-reader"></div>
+                </div>
+                <form id="ticketForm">
+                    <div class="form-group">
+                        <label for="ticketNumber">Folio del Boleto:</label>
+                        <input type="text" id="ticketNumber" class="input-control" required="" placeholder="Ej. CBTA52-0001">
+                    </div>
+                    <div class="form-group">
+                        <label for="routeSelect">Ruta Oficial:</label>
+                        <select id="routeSelect" class="input-control">
+                            <option value="CBTA 52 / MATEHUALA" selected="">CBTA 52 / MATEHUALA</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="ticketPrice">Costo del Boleto ($ MXN) — Protegido:</label>
+                        <div class="price-lock-group">
+                            <input type="number" id="ticketPrice" class="input-control" value="15.00" step="0.50" min="0" readonly="" required="">
+                            <button type="button" id="btnUnlockPrice" class="btn btn-outline-lock" title="Cambiar precio con contraseña">
+                                🔒 Modificar Costo
+                            </button>
+                        </div>
+                        <small id="priceStatusMsg" style="display: block; margin-top: 4px; color: var(--text-muted); font-size: 12px;">
+                            Precio protegido. Requiere contraseña (`123456789`) para modificarse.
+                        </small>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        ✅ Registrar Boleto Vendido
+                    </button>
+                    <button type="button" id="btnPrintLast" class="btn btn-accent" style="margin-bottom: 0;">
+                        🖨️ Imprimir Último Boleto Individual (🔒)
+                    </button>
+                </form>
+            </section>
+
+            <section class="card" id="seccion-impresion">
+                <div class="card-header">
+                    <h2>2. Imprimir Planilla de 50 Boletos Grandes</h2>
+                    <p>Genera 50 boletos nuevos (omite folios ya vendidos o ya impresos).</p>
+                </div>
+                <div class="form-group">
+                    <label for="batchStartNumber">Folio inicial del lote de 50 boletos:</label>
+                    <input type="number" id="batchStartNumber" class="input-control" value="1" min="1" step="1">
+                    <small id="batchRangePreview" style="display: block; margin-top: 6px; color: var(--purple); font-weight: 700; font-size: 13px;">
+                        Calculando folios disponibles...
+                    </small>
+                    <small id="printedFoliosCount" style="display: block; margin-top: 4px; color: var(--text-muted); font-size: 12px;">
+                        📋 Folios impresos acumulados: 0
+                    </small>
+                </div>
+                <button type="button" id="btnPrint50" class="btn btn-purple" style="margin-bottom: 8px;">
+                    🔒 Imprimir Lote de 50 Boletos Grandes
+                </button>
+                <button type="button" id="btnResetFoliosBook" class="btn btn-sm" style="background:#64748b; width:100%; min-height:38px;">
+                    🔄 Reiniciar Libro de Folios Impresos (🔒 Admin)
+                </button>
+            </section>
+        </div>
+
+        <div>
+            <section class="card" id="seccion-corte">
+                <div class="card-header">
+                    <h2>3. Corte Diario y Exportación</h2>
+                    <p>Listado de ventas del día, descarga en CSV/Excel y reinicio del corte.</p>
+                </div>
+                <div class="action-bar">
+                    <button type="button" id="btnExportCSV" class="btn btn-blue" style="margin-bottom: 0;">
+                        📊 Descargar CSV / Excel (🔒)
+                    </button>
+                    <button type="button" id="btnClearData" class="btn btn-danger" style="margin-bottom: 0;">
+                        🗑️ Reiniciar Corte (🔒)
+                    </button>
+                </div>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Folio</th>
+                                <th>Fecha y Hora</th>
+                                <th>Ruta</th>
+                                <th>Monto</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="salesTableBody"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="card" id="seccion-respaldo">
+                <div class="card-header">
+                    <h2>4. Respaldo y Descarga del Sistema</h2>
+                    <p>Descarga una copia del archivo HTML protegido para guardarlo como acceso directo.</p>
+                </div>
+                <button type="button" id="btnDownloadApp" class="btn btn-primary" style="margin-bottom: 8px;">
+                    ⬇️ Descargar Archivo HTML Protegido (🔒)
+                </button>
+                <small style="display:block; color: var(--text-muted); font-size: 12px;">
+                    Guarda el archivo en tu escritorio y ábrelo con doble clic. Para generar códigos de barras, QR e impresión requiere conexión a internet (librerías CDN).
+                </small>
+            </section>
+        </div>
+
+    </main>
+
+    <nav class="mobile-nav">
+        <a href="#seccion-resumen"><span>💰</span><span>Resumen</span></a>
+        <a href="#seccion-cobro"><span>📲</span><span>Cobrar</span></a>
+        <a href="#seccion-impresion"><span>🎫</span><span>Imprimir 50</span></a>
+    </nav>
+
+    <div class="modal-overlay" id="passwordModal">
+        <div class="modal-box">
+            <h3 id="modalTitle">🔒 Autorización Requerida</h3>
+            <p id="modalDescription">Ingrese la contraseña de administrador (`123456789`) para continuar:</p>
+            <input type="password" id="adminPasswordInput" placeholder="•••••••••" inputmode="numeric" autocomplete="off">
+            <div style="display: flex; gap: 10px;">
+                <button type="button" id="btnCancelPassword" class="btn btn-danger" style="margin-bottom: 0;">Cancelar</button>
+                <button type="button" id="btnConfirmPassword" class="btn btn-primary" style="margin-bottom: 0;">Autorizar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="batch-50-print"></div>
+
+    <div id="single-ticket-print">
+        <h3 style="font-size: 18px; font-weight: 900; margin-bottom: 2px;">CBTA No. 52</h3>
+        <p style="font-size: 13px; font-weight: bold; margin-bottom: 8px; border-bottom: 1.5px solid #000; padding-bottom: 4px;">
+            RUTA: <span id="singlePrintRoute">CBTA 52 / MATEHUALA</span>
+        </p>
+        <p style="font-size: 15px; margin: 5px 0;"><strong>FOLIO:</strong> <span id="singlePrintFolio"></span></p>
+        <p style="font-size: 12px; margin: 4px 0;"><strong>FECHA:</strong> <span id="singlePrintDate"></span></p>
+        <p style="font-size: 15px; font-weight: bold; margin: 6px 0;">COSTO: $<span id="singlePrintPrice"></span> MXN</p>
+        <div id="single-qr-container" style="display: flex; justify-content: center; margin: 8px auto;"></div>
+        <svg id="single-barcode-svg" style="width: 100%; max-width: 210px; height: auto;"></svg>
+    </div>
+
+    </div><!-- /appContainer -->
+
+    <script>
+        const ORIGINAL_HTML = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+
+        (function protegerCodigo() {
+            document.addEventListener('contextmenu', function (e) {
+                e.preventDefault();
+                return false;
+            }, false);
+
+            document.addEventListener('keydown', function (e) {
+                const key = (e.key || '').toUpperCase();
+                if (key === 'F12') { e.preventDefault(); e.stopPropagation(); return false; }
+                if (e.ctrlKey && e.shiftKey && ['I', 'J', 'C', 'K'].includes(key)) { e.preventDefault(); e.stopPropagation(); return false; }
+                if (e.ctrlKey && (key === 'U' || key === 'S')) { e.preventDefault(); e.stopPropagation(); return false; }
+                if (e.metaKey && e.altKey && ['I', 'J', 'C', 'U'].includes(key)) { e.preventDefault(); e.stopPropagation(); return false; }
+            }, false);
+
+            document.addEventListener('dragstart', function (e) { e.preventDefault(); }, false);
+            document.addEventListener('copy', function (e) {
+                const el = document.activeElement;
+                const tag = el ? el.tagName : '';
+                if (tag !== 'INPUT' && tag !== 'TEXTAREA') { e.preventDefault(); }
+            }, false);
+
+            document.addEventListener('selectstart', function (e) {
+                const tag = e.target.tagName;
+                if (tag !== 'INPUT' && tag !== 'TEXTAREA') { e.preventDefault(); }
+            }, false);
+        })();
+
+        const STORAGE_KEY = 'cbta52_matehuala_ventas';
+        const PRICE_STORAGE_KEY = 'cbta52_matehuala_precio';
+        const PRINTED_FOLIOS_KEY = 'cbta52_folios_impresos';
+        const NEXT_BATCH_KEY = 'cbta52_siguiente_lote';
+        const ADMIN_PASSWORD = '123456789';
+
+        let salesList = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+        let savedPrice = localStorage.getItem(PRICE_STORAGE_KEY) || '15.00';
+        let printedFolios = new Set(JSON.parse(localStorage.getItem(PRINTED_FOLIOS_KEY)) || []);
+        let nextBatchStart = parseInt(localStorage.getItem(NEXT_BATCH_KEY)) || 1;
+
+        let lastRegisteredTicket = salesList.length > 0 ? salesList[salesList.length - 1] : null;
+        let pendingProtectedAction = null;
+        let html5QrScanner = null;
+        let cameraActive = false;
+        let isPriceUnlocked = false;
+
+        const liveDateBadge = document.getElementById('liveDateBadge');
+        const barcodeInput = document.getElementById('barcodeInput');
+        const ticketForm = document.getElementById('ticketForm');
+        const ticketNumberInput = document.getElementById('ticketNumber');
+        const routeSelect = document.getElementById('routeSelect');
+        const ticketPriceInput = document.getElementById('ticketPrice');
+        const btnUnlockPrice = document.getElementById('btnUnlockPrice');
+        const priceStatusMsg = document.getElementById('priceStatusMsg');
+        const salesTableBody = document.getElementById('salesTableBody');
+        const totalTicketsEl = document.getElementById('totalTickets');
+        const totalRevenueEl = document.getElementById('totalRevenue');
+        const btnPrintLast = document.getElementById('btnPrintLast');
+        const btnExportCSV = document.getElementById('btnExportCSV');
+        const btnClearData = document.getElementById('btnClearData');
+        const batchStartNumber = document.getElementById('batchStartNumber');
+        const batchRangePreview = document.getElementById('batchRangePreview');
+        const printedFoliosCount = document.getElementById('printedFoliosCount');
+        const btnPrint50 = document.getElementById('btnPrint50');
+        const btnResetFoliosBook = document.getElementById('btnResetFoliosBook');
+        const batch50PrintContainer = document.getElementById('batch-50-print');
+        const btnDownloadApp = document.getElementById('btnDownloadApp');
+
+        const passwordModal = document.getElementById('passwordModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalDescription = document.getElementById('modalDescription');
+        const adminPasswordInput = document.getElementById('adminPasswordInput');
+        const btnCancelPassword = document.getElementById('btnCancelPassword');
+        const btnConfirmPassword = document.getElementById('btnConfirmPassword');
+
+        const btnToggleCameraQR = document.getElementById('btnToggleCameraQR');
+        const qrReaderDiv = document.getElementById('qr-reader');
+
+        liveDateBadge.textContent = '📅 ' + new Date().toLocaleDateString('es-MX', {
+            weekday: 'short', year: 'numeric', month: 'short', day: 'numeric'
+        });
+        ticketPriceInput.value = parseFloat(savedPrice).toFixed(2);
+
+        function playBeep() {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(980, ctx.currentTime);
+                gain.gain.setValueAtTime(0.18, ctx.currentTime);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start();
+                osc.stop(ctx.currentTime + 0.12);
+            } catch (e) {}
+        }
+
+        function formatFolio(num) {
+            return `CBTA52-${String(num).padStart(4, '0')}`;
+        }
+
+        function triggerShake(inputEl) {
+            inputEl.classList.remove('input-shake');
+            void inputEl.offsetWidth;
+            inputEl.classList.add('input-shake');
+            setTimeout(() => inputEl.classList.remove('input-shake'), 800);
+        }
+
+        function getRegisteredSet() {
+            return new Set(salesList.map(t => t.ticketNumber.toUpperCase()));
+        }
+
+        function getNextBatchFolios(startNum, count) {
+            const folios = [];
+            const registeredSet = getRegisteredSet();
+            let candidate = startNum;
+            let attempts = 0;
+            const MAX_ATTEMPTS = 20000;
+
+            while (folios.length < count && attempts < MAX_ATTEMPTS) {
+                const folio = formatFolio(candidate);
+                if (!registeredSet.has(folio) && !printedFolios.has(folio)) {
+                    folios.push(folio);
+                }
+                candidate++;
+                attempts++;
+            }
+            return { folios, nextCandidate: candidate };
+        }
+
+        function updateBatchPreview() {
+            const start = parseInt(batchStartNumber.value) || 1;
+            const { folios } = getNextBatchFolios(start, 50);
+
+            printedFoliosCount.textContent = `📋 Folios impresos acumulados: ${printedFolios.size}`;
+
+            if (folios.length === 0) {
+                batchRangePreview.textContent = '⚠️ No hay folios disponibles desde ese número.';
+                batchRangePreview.style.color = '#dc2626';
+                return;
+            }
+
+            batchRangePreview.style.color = 'var(--purple)';
+            const first = folios[0];
+            const last = folios[folios.length - 1];
+
+            if (folios.length === 50) {
+                batchRangePreview.textContent = `Se imprimirán 50 boletos: del ${first} al ${last} (omitiendo ya usados)`;
+            } else {
+                batchRangePreview.textContent = `⚠️ Solo hay ${folios.length} folio(s) disponible(s): ${first} al ${last}`;
+            }
+        }
+
+        batchStartNumber.value = nextBatchStart;
+        batchStartNumber.addEventListener('input', updateBatchPreview);
+
+        function suggestNextFolio() {
+            const nextNum = salesList.length + 1;
+            ticketNumberInput.value = formatFolio(nextNum);
+        }
+
+        function saveAndRender() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(salesList));
+            renderTableAndTotals();
+            suggestNextFolio();
+        }
+
+        function renderTableAndTotals() {
+            salesTableBody.innerHTML = '';
+            let accumulatedRevenue = 0;
+
+            if (salesList.length === 0) {
+                salesTableBody.innerHTML = `
+                    <tr>
+                        <td colspan="6" style="text-align: center; padding: 28px 12px; color: #64748b;">
+                            Aún no hay boletos registrados hoy. Escanea un código QR / Barras o registra un boleto.
+                        </td>
+                    </tr>
+                `;
+            } else {
+                [...salesList].reverse().forEach((item, idx) => {
+                    const realIndex = salesList.length - 1 - idx;
+                    accumulatedRevenue += parseFloat(item.price);
+
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td><strong>${realIndex + 1}</strong></td>
+                        <td><span class="folio-pill">${item.ticketNumber}</span></td>
+                        <td>${item.date} ${item.time}</td>
+                        <td><strong>${item.route}</strong></td>
+                        <td><strong>$${parseFloat(item.price).toFixed(2)}</strong></td>
+                        <td>
+                            <button class="btn btn-accent btn-sm" onclick="requestPrintSingleTicket(${realIndex})" title="Imprimir boleto (Requiere contraseña)">🖨️</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteTicket(${realIndex})" title="Eliminar registro">✖</button>
+                        </td>
+                    `;
+                    salesTableBody.appendChild(tr);
+                });
+            }
+
+            totalTicketsEl.textContent = salesList.length;
+            totalRevenueEl.textContent = `$${accumulatedRevenue.toFixed(2)}`;
+        }
+
+        function requireAdminPassword(title, description, actionCallback) {
+            modalTitle.textContent = '🔒 ' + title;
+            modalDescription.textContent = description;
+            pendingProtectedAction = actionCallback;
+            adminPasswordInput.value = '';
+            passwordModal.style.display = 'flex';
+            setTimeout(() => adminPasswordInput.focus(), 50);
+        }
+
+        function closePasswordModal() {
+            passwordModal.style.display = 'none';
+            pendingProtectedAction = null;
+        }
+
+        function verifyPasswordAndRun() {
+            if (adminPasswordInput.value === ADMIN_PASSWORD) {
+                const action = pendingProtectedAction;
+                closePasswordModal();
+                if (typeof action === 'function') action();
+            } else {
+                alert('❌ Contraseña incorrecta. Verifique e intente nuevamente.');
+                adminPasswordInput.value = '';
+                adminPasswordInput.focus();
+            }
+        }
+
+        btnCancelPassword.addEventListener('click', closePasswordModal);
+        btnConfirmPassword.addEventListener('click', verifyPasswordAndRun);
+        adminPasswordInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') { e.preventDefault(); verifyPasswordAndRun(); }
+            else if (e.key === 'Escape') { closePasswordModal(); }
+        });
+
+        btnUnlockPrice.addEventListener('click', function() {
+            if (!isPriceUnlocked) {
+                requireAdminPassword(
+                    'Modificar Costo del Boleto',
+                    'Ingrese la contraseña para desbloquear y cambiar el costo del boleto:',
+                    function() {
+                        isPriceUnlocked = true;
+                        ticketPriceInput.removeAttribute('readonly');
+                        ticketPriceInput.focus();
+                        ticketPriceInput.select();
+                        btnUnlockPrice.textContent = '💾 Guardar Costo';
+                        btnUnlockPrice.style.background = '#15803d';
+                        priceStatusMsg.textContent = '✅ Edición habilitada. Escriba el nuevo costo y presione "Guardar Costo".';
+                        priceStatusMsg.style.color = '#15803d';
+                    }
+                );
+            } else {
+                const newPrice = parseFloat(ticketPriceInput.value);
+                if (isNaN(newPrice) || newPrice < 0) {
+                    alert('Ingrese un monto válido.');
+                    return;
+                }
+                ticketPriceInput.value = newPrice.toFixed(2);
+                localStorage.setItem(PRICE_STORAGE_KEY, ticketPriceInput.value);
+                isPriceUnlocked = false;
+                ticketPriceInput.setAttribute('readonly', true);
+                btnUnlockPrice.textContent = '🔒 Modificar Costo';
+                btnUnlockPrice.style.background = '#334155';
+                priceStatusMsg.textContent = '🔒 Nuevo costo guardado y protegido correctamente.';
+                priceStatusMsg.style.color = '#475569';
+            }
+        });
+
+        function registerTicketSale(code, route, price) {
+            const cleanCode = code.trim().toUpperCase();
+            if (!cleanCode) return;
+
+            const registeredSet = getRegisteredSet();
+            if (registeredSet.has(cleanCode)) {
+                alert(
+                    `⛔ FOLIO YA REGISTRADO\n\n` +
+                    `El folio "${cleanCode}" ya fue cobrado anteriormente.\n\n` +
+                    `No se permite registrar el mismo folio dos veces en el mismo corte.\n\n` +
+                    `Verifique el boleto o consulte el listado de ventas.`
+                );
+                triggerShake(barcodeInput);
+                triggerShake(ticketNumberInput);
+                barcodeInput.value = '';
+                barcodeInput.focus();
+                return;
+            }
+
+            const now = new Date();
+            const newSale = {
+                ticketNumber: cleanCode,
+                date: now.toLocaleDateString('es-MX'),
+                time: now.toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
+                route: route,
+                price: parseFloat(price) || 0
+            };
+
+            salesList.push(newSale);
+            lastRegisteredTicket = newSale;
+            playBeep();
+            saveAndRender();
+            updateBatchPreview();
+
+            barcodeInput.value = '';
+            barcodeInput.focus();
+        }
+
+        ticketForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            registerTicketSale(ticketNumberInput.value, routeSelect.value, ticketPriceInput.value);
+        });
+
+        barcodeInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                const scannedCode = barcodeInput.value.trim();
+                if (scannedCode !== '') {
+                    registerTicketSale(scannedCode, routeSelect.value, ticketPriceInput.value);
+                }
+            }
+        });
+
+        btnToggleCameraQR.addEventListener('click', function() {
+            if (!cameraActive) {
+                qrReaderDiv.style.display = 'block';
+                btnToggleCameraQR.textContent = '⏹️ Detener Cámara QR';
+                btnToggleCameraQR.classList.replace('btn-blue', 'btn-danger');
+                cameraActive = true;
+
+                html5QrScanner = new Html5Qrcode("qr-reader");
+                let scanCooldown = false;
+
+                html5QrScanner.start(
+                    { facingMode: "environment" },
+                    { fps: 10, qrbox: { width: 220, height: 220 } },
+                    (decodedText) => {
+                        if (scanCooldown) return;
+                        scanCooldown = true;
+                        registerTicketSale(decodedText, routeSelect.value, ticketPriceInput.value);
+                        setTimeout(() => { scanCooldown = false; }, 2000);
+                    },
+                    () => {}
+                ).catch(() => {
+                    alert("No se pudo acceder a la cámara. Verifique los permisos del navegador.");
+                    stopCameraQR();
+                });
+            } else {
+                stopCameraQR();
+            }
+        });
+
+        function stopCameraQR() {
+            if (html5QrScanner && cameraActive) {
+                html5QrScanner.stop().then(() => html5QrScanner.clear()).catch(() => {});
+            }
+            qrReaderDiv.style.display = 'none';
+            btnToggleCameraQR.textContent = '📷 Activar Cámara para Escanear QR';
+            btnToggleCameraQR.classList.replace('btn-danger', 'btn-blue');
+            cameraActive = false;
+        }
+
+        btnPrint50.addEventListener('click', function() {
+            requireAdminPassword(
+                'Imprimir 50 Boletos Grandes',
+                'Ingrese la contraseña autorizada para imprimir el lote de 50 boletos:',
+                executePrint50Batch
+            );
+        });
+
+        function executePrint50Batch() {
+            const startNum = parseInt(batchStartNumber.value) || 1;
+            const { folios, nextCandidate } = getNextBatchFolios(startNum, 50);
+
+            if (folios.length < 50) {
+                alert(
+                    `⚠️ Solo hay ${folios.length} folio(s) disponible(s) desde ${formatFolio(startNum)}.\n\n` +
+                    `No se puede imprimir el lote completo de 50.\n\n` +
+                    `Ajuste el folio inicial o reinicie el libro de folios si es necesario.`
+                );
+                return;
+            }
+
+            const currentPrice = parseFloat(ticketPriceInput.value || 15).toFixed(2);
+            batch50PrintContainer.innerHTML = '';
+
+            for (let i = 0; i < 50; i++) {
+                const currentFolio = folios[i];
+                const ticketDiv = document.createElement('div');
+                ticketDiv.className = 'large-ticket';
+                const svgId = `barcode-batch-${i}`;
+                const qrId = `qr-batch-${i}`;
+
+                ticketDiv.innerHTML = `
+                    <div class="large-ticket-header">
+                        <div class="school-title">CBTA No. 52</div>
+                        <div class="route-title">RUTA: CBTA 52 / MATEHUALA</div>
+                    </div>
+                    <div class="large-ticket-body">
+                        <div class="large-ticket-info">
+                            <div class="folio-badge">FOLIO: ${currentFolio}</div>
+                            <div class="price-label">TRANSPORTE ESCOLAR - $${currentPrice} MXN</div>
+                            <svg id="${svgId}" class="barcode-svg"></svg>
+                        </div>
+                        <div class="large-ticket-qr" id="${qrId}"></div>
+                    </div>
+                `;
+                batch50PrintContainer.appendChild(ticketDiv);
+
+                JsBarcode(`#${svgId}`, currentFolio, {
+                    format: "CODE128",
+                    lineColor: "#000",
+                    width: 1.5,
+                    height: 30,
+                    displayValue: false,
+                    margin: 1
+                });
+
+                new QRCode(document.getElementById(qrId), {
+                    text: currentFolio,
+                    width: 66,
+                    height: 66,
+                    colorDark: "#000000",
+                    colorLight: "#ffffff",
+                    correctLevel: QRCode.CorrectLevel.M
+                });
+            }
+
+            document.body.classList.remove('print-mode-single');
+            document.body.classList.add('print-mode-batch');
+
+            setTimeout(() => {
+                window.print();
+
+                folios.forEach(f => printedFolios.add(f));
+                localStorage.setItem(PRINTED_FOLIOS_KEY, JSON.stringify([...printedFolios]));
+
+                nextBatchStart = nextCandidate;
+                localStorage.setItem(NEXT_BATCH_KEY, String(nextBatchStart));
+
+                batchStartNumber.value = nextBatchStart;
+                updateBatchPreview();
+            }, 350);
+        }
+
+        btnResetFoliosBook.addEventListener('click', function() {
+            requireAdminPassword(
+                'Reiniciar Libro de Folios',
+                '⚠️ Ingrese la contraseña para BORRAR el registro de folios impresos.\nEsto permite reimprimir folios. Use con precaución:',
+                function() {
+                    printedFolios.clear();
+                    localStorage.setItem(PRINTED_FOLIOS_KEY, '[]');
+                    nextBatchStart = 1;
+                    localStorage.setItem(NEXT_BATCH_KEY, '1');
+                    batchStartNumber.value = 1;
+                    updateBatchPreview();
+                    alert('✅ Libro de folios reiniciado. El próximo lote comenzará desde CBTA52-0001.');
+                }
+            );
+        });
+
+        function executeSinglePrint(ticketData) {
+            document.getElementById('singlePrintRoute').textContent = ticketData.route;
+            document.getElementById('singlePrintFolio').textContent = ticketData.ticketNumber;
+            document.getElementById('singlePrintDate').textContent = `${ticketData.date} ${ticketData.time}`;
+            document.getElementById('singlePrintPrice').textContent = parseFloat(ticketData.price).toFixed(2);
+
+            const qrContainer = document.getElementById('single-qr-container');
+            qrContainer.innerHTML = '';
+            new QRCode(qrContainer, {
+                text: ticketData.ticketNumber,
+                width: 90,
+                height: 90,
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.M
+            });
+
+            JsBarcode("#single-barcode-svg", ticketData.ticketNumber, {
+                format: "CODE128",
+                lineColor: "#000",
+                width: 2,
+                height: 40,
+                displayValue: true,
+                fontSize: 13,
+                margin: 4
+            });
+
+            document.body.classList.remove('print-mode-batch');
+            document.body.classList.add('print-mode-single');
+
+            setTimeout(() => window.print(), 250);
+        }
+
+        window.requestPrintSingleTicket = function(index) {
+            const ticket = salesList[index];
+            if (ticket) {
+                requireAdminPassword(
+                    'Reimprimir Boleto Individual',
+                    `Ingrese la contraseña para imprimir el folio ${ticket.ticketNumber}:`,
+                    () => executeSinglePrint(ticket)
+                );
+            }
+        };
+
+        btnPrintLast.addEventListener('click', function() {
+            if (!lastRegisteredTicket) {
+                alert('No hay ningún boleto registrado para imprimir.');
+                return;
+            }
+            requireAdminPassword(
+                'Imprimir Último Boleto',
+                `Ingrese la contraseña para imprimir el folio ${lastRegisteredTicket.ticketNumber}:`,
+                () => executeSinglePrint(lastRegisteredTicket)
+            );
+        });
+
+        window.deleteTicket = function(index) {
+            const ticket = salesList[index];
+            requireAdminPassword(
+                'Eliminar Boleto del Corte',
+                `Ingrese la contraseña para eliminar el boleto ${ticket.ticketNumber}:`,
+                function() {
+                    salesList.splice(index, 1);
+                    lastRegisteredTicket = salesList.length > 0 ? salesList[salesList.length - 1] : null;
+                    saveAndRender();
+                    updateBatchPreview();
+                }
+            );
+        };
+
+        btnExportCSV.addEventListener('click', function() {
+            if (salesList.length === 0) {
+                alert('No hay boletos vendidos hoy para exportar al archivo CSV.');
+                return;
+            }
+            requireAdminPassword(
+                'Descargar Corte Diario CSV',
+                'Ingrese la contraseña para autorizar la descarga del reporte CSV (Excel):',
+                executeExportCSV
+            );
+        });
+
+        function executeExportCSV() {
+            let csvRows = [];
+            csvRows.push(['No. Venta', 'Folio de Boleto', 'Escuela', 'Ruta', 'Fecha', 'Hora', 'Monto Cobrado (MXN)'].join(','));
+            let totalRecaudado = 0;
+
+            salesList.forEach((item, index) => {
+                totalRecaudado += parseFloat(item.price);
+                const row = [
+                    index + 1,
+                    `"${item.ticketNumber}"`,
+                    '"CBTA No. 52"',
+                    `"${item.route}"`,
+                    `"${item.date}"`,
+                    `"${item.time}"`,
+                    parseFloat(item.price).toFixed(2)
+                ];
+                csvRows.push(row.join(','));
+            });
+
+            csvRows.push('');
+            csvRows.push(['', '', '', '', '', 'TOTAL BOLETOS VENDIDOS:', salesList.length].join(','));
+            csvRows.push(['', '', '', '', '', 'TOTAL RECAUDADO DEL DIA ($):', totalRecaudado.toFixed(2)].join(','));
+
+            const csvString = "\uFEFF" + csvRows.join('\n');
+            const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+
+            const fechaArchivo = new Date().toISOString().slice(0, 10);
+            const link = document.createElement('a');
+            link.setAttribute('href', url);
+            link.setAttribute('download', `Corte_CBTA52_Matehuala_${fechaArchivo}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        btnClearData.addEventListener('click', function() {
+            if (salesList.length === 0) {
+                alert('El corte del día ya está en ceros.');
+                return;
+            }
+            requireAdminPassword(
+                'Reiniciar Corte del Día',
+                '⚠️ Ingrese la contraseña para poner en ceros la recaudación y borrar los registros actuales:',
+                function() {
+                    salesList = [];
+                    lastRegisteredTicket = null;
+                    saveAndRender();
+                    updateBatchPreview();
+                    alert('✅ El corte del día ha sido reiniciado correctamente.');
+                }
+            );
+        });
+
+        btnDownloadApp.addEventListener('click', function() {
+            requireAdminPassword(
+                'Descargar Archivo del Sistema',
+                'Ingrese la contraseña de administrador para descargar el archivo HTML protegido:',
+                function() {
+                    try {
+                        const blob = new Blob([ORIGINAL_HTML], { type: 'text/html;charset=utf-8' });
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = 'Mi_Taquilla_CBTA52.html';
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                        setTimeout(() => URL.revokeObjectURL(url), 5000);
+                        alert('✅ Archivo descargado. Guárdalo en tu escritorio y crea un acceso directo.');
+                    } catch (err) {
+                        alert('⚠️ No se pudo generar la descarga automática. Contacta al administrador.');
+                    }
+                }
+            );
+        });
+
+        updateBatchPreview();
+        saveAndRender();
+
+        /* ============================================================
+           SISTEMA DE LOGIN / INDEX
+           ============================================================ */
+        const LOGIN_ADMIN_USERS = {
+            'vicente': { password: 'cbta52', displayName: 'Vicente' },
+            'raul':    { password: 'cbta52', displayName: 'Raul' }
+        };
+        const LOGIN_GUEST_PASSWORD = 'cbta';
+
+        let currentSession = null;
+
+        const loginOverlay = document.getElementById('loginOverlay');
+        const loginForm = document.getElementById('loginForm');
+        const loginUsernameInput = document.getElementById('loginUsername');
+        const loginPasswordInput = document.getElementById('loginPassword');
+        const loginUserTypeSelect = document.getElementById('loginUserType');
+        const loginErrorEl = document.getElementById('loginError');
+        const appContainer = document.getElementById('appContainer');
+        const userBadgeEl = document.getElementById('userBadge');
+        const btnLogout = document.getElementById('btnLogout');
+
+        function showLoginError(msg) {
+            loginErrorEl.textContent = msg;
+            loginPasswordInput.value = '';
+            loginPasswordInput.focus();
+        }
+
+        function doLogin(username, userType, password) {
+            const cleanUser = (username || '').trim().toLowerCase();
+
+            if (!cleanUser) {
+                showLoginError('❌ Ingrese un nombre de usuario.');
+                return;
+            }
+
+            if (userType === 'admin') {
+                const adminUser = LOGIN_ADMIN_USERS[cleanUser];
+                if (!adminUser) {
+                    showLoginError('❌ Usuario administrador no reconocido. Use: Vicente o Raul.');
+                    return;
+                }
+                if (password !== adminUser.password) {
+                    showLoginError('❌ Contraseña de administrador incorrecta.');
+                    return;
+                }
+                applyLogin(adminUser.displayName, 'admin');
+            } else if (userType === 'guest') {
+                if (password !== LOGIN_GUEST_PASSWORD) {
+                    showLoginError('❌ Contraseña de invitado incorrecta.');
+                    return;
+                }
+                const guestName = cleanUser.charAt(0).toUpperCase() + cleanUser.slice(1);
+                applyLogin(guestName, 'guest');
+            } else {
+                showLoginError('❌ Tipo de usuario no válido.');
+            }
+        }
+
+        function applyLogin(displayName, role) {
+            currentSession = { name: displayName, role: role };
+
+            loginOverlay.style.display = 'none';
+            appContainer.style.display = 'block';
+
+            userBadgeEl.textContent = (role === 'admin' ? '👑 ' : '👁️ ') + displayName + ' · ' + (role === 'admin' ? 'Admin' : 'Invitado');
+            userBadgeEl.style.background = role === 'admin' ? 'rgba(234, 179, 8, 0.95)' : 'rgba(148, 163, 184, 0.95)';
+            userBadgeEl.style.color = role === 'admin' ? '#0f172a' : '#ffffff';
+
+            const db = document.getElementById('liveDateBadge');
+            if (db) {
+                db.textContent = '📅 ' + new Date().toLocaleDateString('es-MX', {
+                    weekday: 'short', year: 'numeric', month: 'short', day: 'numeric'
+                });
+            }
+
+            loginForm.reset();
+            loginErrorEl.textContent = '';
+
+            setTimeout(function() {
+                const bi = document.getElementById('barcodeInput');
+                if (bi) bi.focus();
+            }, 250);
+        }
+
+        function handleLogoutAction() {
+            if (!confirm('¿Desea cerrar la sesión actual y volver al inicio?')) return;
+
+            currentSession = null;
+            appContainer.style.display = 'none';
+            loginOverlay.style.display = 'flex';
+            loginErrorEl.textContent = '';
+            loginForm.reset();
+            userBadgeEl.textContent = '👤 Sin sesión';
+            setTimeout(function() { loginUsernameInput.focus(); }, 150);
+        }
+
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            doLogin(loginUsernameInput.value, loginUserTypeSelect.value, loginPasswordInput.value);
+        });
+
+        btnLogout.addEventListener('click', handleLogoutAction);
+
+        if (window.innerWidth >= 768) {
+            setTimeout(function() { loginUsernameInput.focus(); }, 400);
+        }
+    </script></body></html>
